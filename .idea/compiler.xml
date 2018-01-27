@@ -7,9 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="toyrobot" />
+        <module name="ToyRobot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="ToyRobot" target="9" />
       <module name="toyrobot" target="1.5" />
     </bytecodeTargetLevel>
   </component>
