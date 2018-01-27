@@ -21,7 +21,7 @@ public class App
     }
 
     public static InputController intializeBoardGame(InputStream in){
-        BoardController boardController = new BoardControllerIMPL(new GridBoardGame(4,4));
+        BoardController boardController = new BoardControllerIMPL(new GridBoardGame(4,4), new Robot());
         InputControllerIMPL inputController = new InputControllerIMPL(boardController, in);
         return inputController;
     }

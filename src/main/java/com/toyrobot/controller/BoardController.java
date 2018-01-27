@@ -2,7 +2,12 @@ package com.toyrobot.controller;
 
 import com.toyrobot.model.PlaceableItem;
 
-public interface BoardController {
-    public boolean move(PlaceableItem item);
+import java.util.Optional;
 
+public interface BoardController {
+
+    public boolean move();
+    public void rotate(int direction);
+    public boolean place(int x, int y, int cardinalDirection);
+    public Optional<String> report();
 }

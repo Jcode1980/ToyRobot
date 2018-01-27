@@ -2,12 +2,19 @@ package com.toyrobot.controller;
 
 import com.toyrobot.controller.BoardController;
 import com.toyrobot.controller.InputController;
+import com.toyrobot.enums.ActionType;
+import com.toyrobot.enums.CardinalDirection;
+import com.toyrobot.enums.RotationDirection;
 import com.toyrobot.model.GridBoard;
 
+import javax.swing.text.html.Option;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+
+import static java.util.List.of;
+import static java.util.Optional.empty;
 
 public class InputControllerIMPL implements InputController {
     private InputStream inputStream;
@@ -42,7 +49,7 @@ public class InputControllerIMPL implements InputController {
                     currentAction -> commandInput.matches(currentAction.pattern())).findFirst();
 
             if(optionalActionType.isPresent()){
-                processCommand(optionalActionType.get(), commandInput);
+                System.out.println(processCommand(optionalActionType.get(), commandInput));
             }
             else{
                 System.out.print("unknown command: " + commandInput);
@@ -51,24 +58,42 @@ public class InputControllerIMPL implements InputController {
         }
     }
 
-    private void processCommand(ActionType actionType, String command){
+    private Optional<String> processCommand(ActionType actionType, String command){
+        Optional<String> returnObject = Optional.empty();
+
         switch (actionType) {
             case PLACE:
+                List<String> commandList =  List.of(command.split("\\s+"));
+                Integer x = Integer.valueOf(commandList.get(1));
+                Integer y = Integer.valueOf(commandList.get(2));
+                String cDirection  = commandList.get(3);
+                Optional<CardinalDirection> theDirection = CardinalDirection.cardinalDirectionForString(cDirection);
+                if(theDirection.isPresent()) {
+                    boardController.place(x, y, theDirection.get().value());
+                }
+                break;
+
+            case REPORT:
+                returnObject = boardController.report();
+                break;
+            case MOVE:
+                boardController.move();
+                break;
+            case LEFT:
+                boardController.rotate(RotationDirection.LEFT.value());
+                break;
+            case RIGHT:
+                boardController.rotate(RotationDirection.RIGHT.value());
+                break;
         }
+
+        return returnObject;
+
+
     }
 
-    public enum ActionType{
-        PLACE("PLACE"),MOVE("MOVE"),RIGHT("RIGHT"),LEFT("LEFT"),
-        REPORT("REPORT");
 
-        ActionType(String pattern){this.pattern = pattern;}
 
-        private final String pattern;
-
-        public String pattern(){return pattern;}
-        public static List<ActionType> actionTypes(){return List.of(ActionType.PLACE, ActionType.LEFT, ActionType.RIGHT,
-                ActionType.MOVE, ActionType.REPORT);}
-    }
 
 
 }

@@ -1,10 +1,14 @@
 package com.toyrobot.model;
 
+import com.toyrobot.enums.RotationDirection;
+
 public interface PlaceableItem {
-    public boolean placedOnBoard();
-    public int getX();
-    public int getY();
-    public int getOrientation();
-    public void rotate(int direction);
+    boolean placedOnBoard();
+    int getX();
+    int getY();
+    int cDirection();
+    void rotate(int rotationDirection);
+    void place(int x, int y, int cDirection);
+
 
 }

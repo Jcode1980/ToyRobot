@@ -1,29 +1,43 @@
 package com.toyrobot.model;
 
+import com.toyrobot.enums.CardinalDirection;
+import com.toyrobot.enums.RotationDirection;
+
+import java.awt.*;
+import java.util.Optional;
+
 public class Robot implements PlaceableItem {
+    private int x;
+    private int y;
+    private int cDirection;
 
-    @Override
-    public boolean placedOnBoard() {
-        return false;
+    //todo
+    public boolean placedOnBoard() {return false; }
+
+    public int getX() {return x; }
+
+    public int getY() { return y; }
+
+    public int cDirection(){ return cDirection;}
+
+    //TODO
+    public Point nextMoveCoordinates(CardinalDirection direction){
+        //Point()
+        return null;
     }
 
-    @Override
-    public int getX() {
-        return 0;
+    public void rotate(int rotationDirection) {
+        Optional<CardinalDirection> optional = CardinalDirection.cardinalDirectionForInt(cDirection());
+        Optional<RotationDirection> rotationOptional = RotationDirection.rotationDirectionForInt(rotationDirection);
+        if(optional.isPresent() && rotationOptional.isPresent()){
+            CardinalDirection newDirection = CardinalDirection.rotate(optional.get(), rotationOptional.get());
+            cDirection = newDirection.value();
+        }
     }
 
-    @Override
-    public int getY() {
-        return 0;
-    }
-
-    @Override
-    public int getOrientation() {
-        return 0;
-    }
-
-    @Override
-    public void rotate(int direction) {
-
+    public void place(int x, int y, int cDirection){
+        this.x = x;
+        this.y = y;
+        this.cDirection = cDirection;
     }
 }

@@ -8,11 +8,11 @@ import static org.junit.Assert.assertNotNull;
 
 public class InputControllerIMPLTest {
 
-    @Test
-    public void InputControllerIMPL_CreateInstanceWithStandardInput_NoExceptionsExpected()
-    {
-        InputControllerIMPL inputControllerIMPL = new InputControllerIMPL(System.in);
-        assertNotNull(inputControllerIMPL);
-    }
+//    @Test
+//    public void InputControllerIMPL_CreateInstanceWithStandardInput_NoExceptionsExpected()
+//    {
+//        InputControllerIMPL inputControllerIMPL = new InputControllerIMPL(System.in);
+//        assertNotNull(inputControllerIMPL);
+//    }
 
 }

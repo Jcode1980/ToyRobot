@@ -5,19 +5,19 @@ import com.toyrobot.controller.BoardController;
 public class GridBoardGame implements GridBoard {
     private BoardController boardController;
     private int width;
-    private int length;
+    private int height;
 
 
-    public GridBoardGame(int width, int length){
+    public GridBoardGame(int width, int height){
         this.width=width;
-        this.length=length;
+        this.height=height;
     }
 
     public int getWidth() {
         return width;
     }
 
-    public int getLength() {
-        return length;
+    public int getHeight() {
+        return height;
     }
 }
