@@ -1,16 +1,22 @@
 package com.toyrobot.controller;
 
-import com.toyrobot.enums.CardinalDirection;
+import com.toyrobot.enums.CardinalPoint;
 import com.toyrobot.enums.RotationDirection;
 import com.toyrobot.model.GridBoard;
 import com.toyrobot.model.PlaceableItem;
-
+import java.awt.*;
 import java.util.Optional;
 
+/**
+ * This class holds holds a GridBoard object and a PlaceableItem
+ * Methods in this class is associated with the state of a PlaceableItem
+ * eg move() method moves the placeableItem, rotate() method, rotates
+ * the PlaceableItem.
+ *
+ * Future development would be to allow the board controller to
+ * contain more than one PlaceableItem.
+ */
 public class BoardControllerIMPL implements BoardController{
-    public static final int ROTATE_LEFT = 1;
-    public static final int ROTATE_RIGHT = 2;
-
     private GridBoard gridBoard;
     private PlaceableItem item;
 
@@ -19,21 +25,30 @@ public class BoardControllerIMPL implements BoardController{
         this.item = item;
     }
 
-    @Override
     public boolean move() {
-        return true;
+        //grab new point for object
+        Point point = item.nextMoveCoordinates();
+        int newX = (int)point.getX();
+        int newY = (int)point.getY();
+
+        //compare point to grid to see if it's a valid move
+        if(coordinatesAreValid((int)point.getX(), (int)point.getY())){
+            item.move(newX, newY);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
-    @Override
-    public void rotate(int direction) {
+    public void rotate(RotationDirection direction) {
         item.rotate(direction);
     }
 
-    @Override
-    public boolean place(int x, int y, int cDirection) {
+    public boolean place(int x, int y, CardinalPoint cp) {
         //check if coordinates are valid
         if(coordinatesAreValid(x,y)){
-            item.place(x, y, cDirection);
+            item.place(x, y, cp);
             return true;
         }
         else {
@@ -41,13 +56,13 @@ public class BoardControllerIMPL implements BoardController{
         }
     }
 
-
     public Optional<String> report() {
-        return Optional.of(item.getX() + " " + item.getY() + " " + CardinalDirection.cardinalDirectionForInt(item.cDirection()));
+        return Optional.of(item.getX() + " " + item.getY() + " " + item.cardinalPoint().getName());
     }
 
     private boolean coordinatesAreValid(int x , int y){
-        return gridBoard.getWidth() >= x && gridBoard.getHeight() >= y;
+
+        return x >=0 && y >=0 &&gridBoard.getWidth() >= x && gridBoard.getHeight() >= y;
     }
 
 

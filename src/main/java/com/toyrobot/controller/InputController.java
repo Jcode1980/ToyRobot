@@ -1,6 +1,15 @@
 package com.toyrobot.controller;
 
-import java.io.InputStream;
+
+/**
+ * This interface handles the input stream to be feed into the <code>BoardController</code>.
+ * Input being read is translated and mapped to methods called on the <code>BoardController</code>.
+ *
+ */
 public interface InputController {
-    public void readCommandStream();
+    /**
+     * Starts reading the Standard input stream.
+     *
+     */
+    void readCommandStream();
 }

@@ -1,21 +1,22 @@
 package com.toyrobot.controller;
 
-import com.toyrobot.controller.BoardController;
-import com.toyrobot.controller.InputController;
 import com.toyrobot.enums.ActionType;
-import com.toyrobot.enums.CardinalDirection;
+import com.toyrobot.enums.CardinalPoint;
 import com.toyrobot.enums.RotationDirection;
-import com.toyrobot.model.GridBoard;
 
-import javax.swing.text.html.Option;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import static java.util.List.of;
-import static java.util.Optional.empty;
-
+/**
+ * This class binds the inputstream to the BoardController.
+ * Input stream that is passed in within the constructor starts
+ * being read when readCommandStream() is called.
+ * Valid lines from input stream are then mapped to method called
+ * on the BoardController
+ *
+ */
 public class InputControllerIMPL implements InputController {
     private InputStream inputStream;
     private BoardController boardController;
@@ -23,7 +24,6 @@ public class InputControllerIMPL implements InputController {
     public InputControllerIMPL(BoardController bc, InputStream is){
         inputStream = is;
         boardController = bc;
-
     }
 
     public void readCommandStream() {
@@ -45,16 +45,19 @@ public class InputControllerIMPL implements InputController {
             System.out.print("Please enter your selection:\t");
             String commandInput = scanner.nextLine();
 
-            Optional<ActionType> optionalActionType = actionTypes.stream().filter(
-                    currentAction -> commandInput.matches(currentAction.pattern())).findFirst();
+            actionTypes.stream().filter(
+                    currentAction -> commandInput.matches(currentAction.pattern())).findFirst()
+                    .ifPresentOrElse(s->System.out.println(processCommand(s, commandInput)),() -> System.out.print("unknown command: " + commandInput));
 
-            if(optionalActionType.isPresent()){
-                System.out.println(processCommand(optionalActionType.get(), commandInput));
-            }
-            else{
-                System.out.print("unknown command: " + commandInput);
-                break;
-            }
+
+
+//            if(optionalActionType.isPresent()){
+//                System.out.println(processCommand(optionalActionType.get(), commandInput));
+//            }
+//            else{
+//                System.out.print("unknown command: " + commandInput);
+//                break;
+//            }
         }
     }
 
@@ -67,10 +70,8 @@ public class InputControllerIMPL implements InputController {
                 Integer x = Integer.valueOf(commandList.get(1));
                 Integer y = Integer.valueOf(commandList.get(2));
                 String cDirection  = commandList.get(3);
-                Optional<CardinalDirection> theDirection = CardinalDirection.cardinalDirectionForString(cDirection);
-                if(theDirection.isPresent()) {
-                    boardController.place(x, y, theDirection.get().value());
-                }
+                CardinalPoint cardinalPoint = CardinalPoint.cardinalDirectionForString(cDirection);
+                boardController.place(x, y, cardinalPoint);
                 break;
 
             case REPORT:
@@ -80,10 +81,10 @@ public class InputControllerIMPL implements InputController {
                 boardController.move();
                 break;
             case LEFT:
-                boardController.rotate(RotationDirection.LEFT.value());
+                boardController.rotate(RotationDirection.LEFT);
                 break;
             case RIGHT:
-                boardController.rotate(RotationDirection.RIGHT.value());
+                boardController.rotate(RotationDirection.RIGHT);
                 break;
         }
 

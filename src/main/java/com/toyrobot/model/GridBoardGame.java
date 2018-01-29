@@ -1,9 +1,6 @@
 package com.toyrobot.model;
 
-import com.toyrobot.controller.BoardController;
-
 public class GridBoardGame implements GridBoard {
-    private BoardController boardController;
     private int width;
     private int height;
 

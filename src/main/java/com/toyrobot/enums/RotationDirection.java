@@ -1,19 +1,18 @@
 package com.toyrobot.enums;
 
-import java.util.List;
-import java.util.Optional;
 
 public enum RotationDirection {
-    LEFT(1),RIGHT(2);
+    LEFT,RIGHT
 
-    public static List<RotationDirection> rotationDirections = List.of(LEFT,RIGHT);
+//    public static List<RotationDirection> rotationDirections = List.of(LEFT,RIGHT);
+//
+//    RotationDirection(int value){this.value = value;}
+//    private int value;
 
-    RotationDirection(int value){this.value = value;}
-    private int value;
+    //public int value(){return value;}
 
-    public int value(){return value;}
-
-    public static Optional<RotationDirection> rotationDirectionForInt(int value){
-        return rotationDirections.stream().filter(currentDirection -> currentDirection.value == value).findFirst();
-    }
+//    public static RotationDirection rotationDirectionForInt(int value){
+//        return rotationDirections.stream().filter(currentDirection -> currentDirection.value == value).findFirst().orElseThrow(() ->
+//                new IllegalArgumentException("RotationDirection with " + value + " not found"));
+//    }
 }
