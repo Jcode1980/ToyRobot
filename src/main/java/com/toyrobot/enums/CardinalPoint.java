@@ -14,7 +14,7 @@ public enum CardinalPoint {
     public int getValue(){return value;}
     public String getName(){return name;}
 
-    public static CardinalPoint rotate(CardinalPoint currentDirection, RotationDirection rotationDirection){
+    public static CardinalPoint cardinalPointForRotation(CardinalPoint currentDirection, RotationDirection rotationDirection){
         int indexOf = cardinalPoints.indexOf(currentDirection);
         int indexOfNextDirection = 0;
 

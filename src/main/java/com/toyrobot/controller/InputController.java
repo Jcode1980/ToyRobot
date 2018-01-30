@@ -11,5 +11,7 @@ public interface InputController {
      * Starts reading the Standard input stream.
      *
      */
-    void readCommandStream();
+
+
+    public void processCommandFile();
 }

@@ -2,7 +2,6 @@ package com.toyrobot.controller;
 
 import com.toyrobot.enums.CardinalPoint;
 import com.toyrobot.enums.RotationDirection;
-import com.toyrobot.model.PlaceableItem;
 
 import java.util.Optional;
 
@@ -23,7 +22,7 @@ public interface BoardController {
      * @return <code>boolean</> to specify if the move was valid and
      * <code>PlaceableItem</code>'s coordinates were updated.
      */
-    public boolean move();
+    boolean move();
 
     /**
      * This methods rotates the <code>PlaceableItem</code> on the board
@@ -32,7 +31,7 @@ public interface BoardController {
      * @param direction the direction in which the <code>PlaceableItem</code>
      *                  will be rotated.
      */
-    public void rotate(RotationDirection direction);
+    void rotate(RotationDirection direction);
 
     /**
      * Checks first if the coordinates (x,y). Valid coordinates are values
@@ -44,12 +43,12 @@ public interface BoardController {
      * @return <code>boolean</code> true if <code>PlaceableItem</code> was placed
      *          successfully on board and false if not placed successfully.
      */
-    public boolean place(int x, int y, CardinalPoint cp);
+    boolean place(int x, int y, CardinalPoint cp);
 
     /**
      *
      * @return <code>String</code> which are the details (x, y, Cardinal Point) of
      * the <code>PlaceableItem</code> on the board.
      */
-    public Optional<String> report();
+    String report();
 }

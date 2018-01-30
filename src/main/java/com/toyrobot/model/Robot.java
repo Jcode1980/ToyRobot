@@ -5,6 +5,9 @@ import com.toyrobot.enums.RotationDirection;
 
 import java.awt.*;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 
 public class Robot implements PlaceableItem {
     private int x = -1;
@@ -17,7 +20,7 @@ public class Robot implements PlaceableItem {
 
     public int getY() { return y; }
 
-    public CardinalPoint cardinalPoint(){ return CardinalPoint.cardinalPointForInt(cDirection);}
+    public CardinalPoint cardinalPoint(){ return CardinalPoint.cardinalPointForInt(cDirection); }
 
     public Point nextMoveCoordinates(){
         CardinalPoint direction = cardinalPoint();
@@ -42,19 +45,25 @@ public class Robot implements PlaceableItem {
     }
 
     public void rotate(RotationDirection rotationDirection) {
-        CardinalPoint cPoint = cardinalPoint();
+        checkNotNull(rotationDirection, "Rotation Direction must not be null", rotationDirection);
 
-        CardinalPoint newDirection = CardinalPoint.rotate(cPoint, rotationDirection);
+        CardinalPoint cPoint = cardinalPoint();
+        CardinalPoint newDirection = CardinalPoint.cardinalPointForRotation(cPoint, rotationDirection);
         cDirection = newDirection.getValue();
-        System.out.println("cDirection is now: " + cDirection);
 
     }
     public void move(int x , int y ){
+        checkArgument(x >= 0, "x coordinate must be a positive non zero integer: %s", x);
+        checkArgument(y >= 0, "y coordinate must be a positive non zero integer: %s", y);
         this.x = x;
         this.y = y;
     }
 
     public void place(int x, int y, CardinalPoint cp){
+        checkArgument(x >= 0, "x coordinate must be a positive non zero integer: %s", x);
+        checkArgument(y >= 0, "y coordinate must be a positive non zero integer: %s", y);
+        checkNotNull(cp, "cp Cardinal Poinst must not be null", cp);
+
         this.x = x;
         this.y = y;
         this.cDirection = cp.getValue();

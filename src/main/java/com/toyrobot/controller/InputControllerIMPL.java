@@ -3,11 +3,20 @@ package com.toyrobot.controller;
 import com.toyrobot.enums.ActionType;
 import com.toyrobot.enums.CardinalPoint;
 import com.toyrobot.enums.RotationDirection;
+import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Stream;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.toyrobot.enums.ActionType.PLACE;
 
 /**
  * This class binds the inputstream to the BoardController.
@@ -18,64 +27,59 @@ import java.util.Scanner;
  *
  */
 public class InputControllerIMPL implements InputController {
-    private InputStream inputStream;
+    private static final Logger log = Logger.getLogger(InputControllerIMPL.class);
+    private static final String DEFAULT_COMMANDS_FILE = "src/main/resources/CommandsExample.txt";
+
+    private String filePath;
     private BoardController boardController;
 
-    public InputControllerIMPL(BoardController bc, InputStream is){
-        inputStream = is;
+    public InputControllerIMPL(BoardController bc, String filePathParam){
+        checkNotNull(bc, "Board controller must not be null", bc);
         boardController = bc;
+        filePath = filePathParam;
     }
 
-    public void readCommandStream() {
-        List<ActionType> actionTypes = ActionType.actionTypes();
+    public void processCommandFile(){
+        String filePathToUse = filePath != null ? filePath : DEFAULT_COMMANDS_FILE;
+        //read file into stream, try-with-resources
+        try (Stream<String> stream = Files.lines(Paths.get(filePathToUse))) {
 
-//        try{
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//            System.out.print("Enter your name: ");
-//            String name = reader.readLine();
-//            System.out.println("Your name is: " + name);
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
+            stream.forEach(line->readCommandLine(line));
 
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-
-            System.out.print("Please enter your selection:\t");
-            String commandInput = scanner.nextLine();
-
-            actionTypes.stream().filter(
-                    currentAction -> commandInput.matches(currentAction.pattern())).findFirst()
-                    .ifPresentOrElse(s->System.out.println(processCommand(s, commandInput)),() -> System.out.print("unknown command: " + commandInput));
-
-
-
-//            if(optionalActionType.isPresent()){
-//                System.out.println(processCommand(optionalActionType.get(), commandInput));
-//            }
-//            else{
-//                System.out.print("unknown command: " + commandInput);
-//                break;
-//            }
+        } catch (IOException e) {
+            log.error("Error reading file : " + filePathToUse);
+            e.printStackTrace();
         }
     }
 
-    private Optional<String> processCommand(ActionType actionType, String command){
-        Optional<String> returnObject = Optional.empty();
+
+
+    private void readCommandLine(String commandLine){
+        List<ActionType> actionTypes = ActionType.actionTypes();
+        actionTypes.stream().filter(
+                    currentAction -> commandLine.matches(currentAction.pattern())).findFirst()
+                    //.ifPresentOrElse(s->System.out.println(processCommand(s, commandLine)),() -> System.out.print("unknown command: " + commandLine));
+                .ifPresentOrElse(actionType->processCommand(actionType, commandLine),() -> log.error("Unknown Command: " + commandLine));
+    }
+
+
+    private void processCommand(ActionType actionType, String command){
+        String resultingInfo = null;
 
         switch (actionType) {
             case PLACE:
-                List<String> commandList =  List.of(command.split("\\s+"));
-                Integer x = Integer.valueOf(commandList.get(1));
-                Integer y = Integer.valueOf(commandList.get(2));
-                String cDirection  = commandList.get(3);
+                String parametersString = command.substring(command.indexOf(" "), command.length());
+                //System.out.println("these are the parameters: " + parametersString);
+                List<String> commandList =  List.of(parametersString.split(","));
+                Integer x = Integer.valueOf(commandList.get(0).trim());
+                Integer y = Integer.valueOf(commandList.get(1).trim());
+                String cDirection  = commandList.get(2);
                 CardinalPoint cardinalPoint = CardinalPoint.cardinalDirectionForString(cDirection);
                 boardController.place(x, y, cardinalPoint);
                 break;
 
             case REPORT:
-                returnObject = boardController.report();
+                resultingInfo = boardController.report();
                 break;
             case MOVE:
                 boardController.move();
@@ -88,7 +92,7 @@ public class InputControllerIMPL implements InputController {
                 break;
         }
 
-        return returnObject;
+        if(resultingInfo != null) log.info(resultingInfo);
 
 
     }

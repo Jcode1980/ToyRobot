@@ -7,6 +7,9 @@ import com.toyrobot.model.PlaceableItem;
 import java.awt.*;
 import java.util.Optional;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * This class holds holds a GridBoard object and a PlaceableItem
  * Methods in this class is associated with the state of a PlaceableItem
@@ -21,6 +24,9 @@ public class BoardControllerIMPL implements BoardController{
     private PlaceableItem item;
 
     public BoardControllerIMPL(GridBoard gridBoard, PlaceableItem item){
+        checkNotNull(gridBoard, "Grid Board must not be null", gridBoard);
+        checkNotNull(item, "PlaceableItem must not be null", item);
+
         this.gridBoard = gridBoard;
         this.item = item;
     }
@@ -42,10 +48,15 @@ public class BoardControllerIMPL implements BoardController{
     }
 
     public void rotate(RotationDirection direction) {
+        checkNotNull(direction, "Direction passed in must not be null", direction);
         item.rotate(direction);
     }
 
     public boolean place(int x, int y, CardinalPoint cp) {
+        checkArgument(x >= 0, "x coordinate must be a positive non zero integer: %s", x);
+        checkArgument(y >= 0, "y coordinate must be a positive non zero integer: %s", y);
+        checkNotNull(cp, "cp Cardinal Poinst must not be null", cp);
+
         //check if coordinates are valid
         if(coordinatesAreValid(x,y)){
             item.place(x, y, cp);
@@ -56,8 +67,9 @@ public class BoardControllerIMPL implements BoardController{
         }
     }
 
-    public Optional<String> report() {
-        return Optional.of(item.getX() + " " + item.getY() + " " + item.cardinalPoint().getName());
+    public String report() {
+
+        return item.getX() + "," + item.getY() + "," + item.cardinalPoint().getName();
     }
 
     private boolean coordinatesAreValid(int x , int y){

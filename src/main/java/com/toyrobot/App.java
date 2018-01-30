@@ -8,20 +8,16 @@ import com.toyrobot.model.*;
 
 import java.io.InputStream;
 
-/**
- * Hello world!
- *
- */
-public class App 
+public class App
 {
     public static void main( String[] args )
     {
-        InputController inputController = intializeBoardGame(System.in);
-        inputController.readCommandStream();
+        InputController inputController = intializeBoardGame(args);
+        inputController.processCommandFile();
     }
 
-    private static InputController intializeBoardGame(InputStream in){
+    private static InputController intializeBoardGame(String[] args){
         BoardController boardController = new BoardControllerIMPL(new GridBoardGame(4,4), new Robot());
-        return new InputControllerIMPL(boardController, in);
+        return new InputControllerIMPL(boardController, args.length > 0 ? args[0] : null);
     }
 }
