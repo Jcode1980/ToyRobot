@@ -5,9 +5,12 @@ import com.toyrobot.enums.RotationDirection;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 
-import static org.junit.Assert.*;
+import java.awt.Point;
+
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.is;
 
 public class RobotTest {
     private Robot robot;
@@ -25,17 +28,17 @@ public class RobotTest {
 
     @Test
     public void getX() {
-        assertEquals(1,robot.getX());
+        assertThat(robot.getX(),is(1));
     }
 
     @Test
     public void getY() {
-        assertEquals(4, robot.getY());
+        assertThat(robot.getY(), is(4));
     }
 
     @Test
     public void cardinalPoint() {
-        assertEquals(CardinalPoint.NORTH, robot.cardinalPoint());
+        assertThat(robot.cardinalPoint(), is(CardinalPoint.NORTH));
     }
 
     @Test
@@ -47,21 +50,21 @@ public class RobotTest {
     @Test
     public void rotate() {
         robot.rotate(RotationDirection.LEFT);
-        assertEquals(CardinalPoint.WEST,robot.cardinalPoint());
+        assertThat(robot.cardinalPoint(),is(CardinalPoint.WEST));
     }
 
     @Test
     public void move() {
         robot.move(4,4);
-        assertEquals(4,robot.getX());
-        assertEquals(4,robot.getY());
+        assertThat(robot.getX(), is(4));
+        assertThat(robot.getY(), is(4));
     }
 
     @Test
     public void place() {
         robot.place(3,4,CardinalPoint.WEST);
-        assertEquals(3,robot.getX());
-        assertEquals(4,robot.getY());
+        assertThat(robot.getX(), is(3));
+        assertThat(robot.getY(), is(4));
         assertTrue(CardinalPoint.WEST.equals( robot.cardinalPoint()));
     }
 }

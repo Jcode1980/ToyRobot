@@ -5,9 +5,7 @@ import com.toyrobot.enums.RotationDirection;
 import com.toyrobot.model.GridBoard;
 import com.toyrobot.model.PlaceableItem;
 import java.awt.*;
-import java.util.Optional;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -32,13 +30,15 @@ public class BoardControllerIMPL implements BoardController{
     }
 
     public boolean move() {
+        if(!item.placedOnBoard()) return false;
+
         //grab new point for object
         Point point = item.nextMoveCoordinates();
         int newX = (int)point.getX();
         int newY = (int)point.getY();
 
         //compare point to grid to see if it's a valid move
-        if(coordinatesAreValid((int)point.getX(), (int)point.getY())){
+        if(coordinatesAreValid(newX, newY)){
             item.move(newX, newY);
             return true;
         }
@@ -53,8 +53,6 @@ public class BoardControllerIMPL implements BoardController{
     }
 
     public boolean place(int x, int y, CardinalPoint cp) {
-        checkArgument(x >= 0, "x coordinate must be a positive non zero integer: %s", x);
-        checkArgument(y >= 0, "y coordinate must be a positive non zero integer: %s", y);
         checkNotNull(cp, "cp Cardinal Poinst must not be null", cp);
 
         //check if coordinates are valid
@@ -69,12 +67,12 @@ public class BoardControllerIMPL implements BoardController{
 
     public String report() {
 
-        return item.getX() + "," + item.getY() + "," + item.cardinalPoint().getName();
+        return item.getX() + "," + item.getY() + "," + item.cardinalPoint().name();
     }
 
     private boolean coordinatesAreValid(int x , int y){
 
-        return x >=0 && y >=0 &&gridBoard.getWidth() >= x && gridBoard.getHeight() >= y;
+        return x >=0 && y >=0 && gridBoard.getWidth() >= x && gridBoard.getHeight() >= y;
     }
 
 

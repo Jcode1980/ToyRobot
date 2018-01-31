@@ -8,10 +8,10 @@ package com.toyrobot.controller;
  */
 public interface InputController {
     /**
-     * Starts reading the Standard input stream.
+     * Starts reading the file specified on the command line else
+     * if no filepath was passed it, it will read from the default
+     * example commands file.
      *
      */
-
-
-    public void processCommandFile();
+    void processCommandFile();
 }

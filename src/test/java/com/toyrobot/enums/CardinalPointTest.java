@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class CardinalPointTest {
 
@@ -14,11 +15,10 @@ public class CardinalPointTest {
 
     @Test
     public void getName_shouldReturnCorrectCardinalName() {
-        CardinalPoint cardinalPoint = CardinalPoint.NORTH;
-        assertThat(CardinalPoint.NORTH.getName(),is("NORTH"));
-        assertThat(CardinalPoint.WEST.getName(),is("WEST"));
-        assertThat(CardinalPoint.EAST.getName(),is("EAST"));
-        assertThat(CardinalPoint.SOUTH.getName(),is("SOUTH"));
+        assertThat(CardinalPoint.NORTH.name(),is("NORTH"));
+        assertThat(CardinalPoint.WEST.name(),is("WEST"));
+        assertThat(CardinalPoint.EAST.name(),is("EAST"));
+        assertThat(CardinalPoint.SOUTH.name(),is("SOUTH"));
     }
 
     @Test
@@ -27,22 +27,22 @@ public class CardinalPointTest {
         assertEquals(CardinalPoint.WEST, cardinalPoint1);
 
         CardinalPoint cardinalPoint2 = CardinalPoint.cardinalPointForRotation(CardinalPoint.NORTH, RotationDirection.RIGHT);
-        assertEquals(CardinalPoint.EAST, cardinalPoint2);
+        assertThat(cardinalPoint2, is(CardinalPoint.EAST));
     }
 
     @Test
     public void cardinalPointForInt_shouldReturnCorrectCardinalPoints() {
         CardinalPoint cpNorth = CardinalPoint.cardinalPointForInt(1);
-        assertEquals(CardinalPoint.NORTH,cpNorth);
+        assertThat(cpNorth, is(CardinalPoint.NORTH));
 
         CardinalPoint cpEAST = CardinalPoint.cardinalPointForInt(2);
-        assertEquals(CardinalPoint.EAST,cpEAST);
+        assertThat(cpEAST, is(CardinalPoint.EAST));
 
         CardinalPoint cpSOUTH = CardinalPoint.cardinalPointForInt(3);
-        assertEquals(CardinalPoint.SOUTH,cpSOUTH);
+        assertThat(cpSOUTH, is(CardinalPoint.SOUTH));
 
         CardinalPoint cpWEST = CardinalPoint.cardinalPointForInt(4);
-        assertEquals(CardinalPoint.WEST,cpWEST);
+        assertThat(cpWEST, is(CardinalPoint.WEST));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -52,16 +52,16 @@ public class CardinalPointTest {
     @Test
     public void cardinalDirectionForString_shouldReturnCorrectCardinalPoints() {
         CardinalPoint cardinalPoint = CardinalPoint.cardinalDirectionForString("NORTH");
-        assertEquals(CardinalPoint.NORTH,cardinalPoint);
+        assertThat(cardinalPoint, is(CardinalPoint.NORTH));
 
         CardinalPoint cpEAST = CardinalPoint.cardinalDirectionForString("EAST");
-        assertEquals(CardinalPoint.EAST,cpEAST);
+        assertThat(cpEAST, is(CardinalPoint.EAST));
 
         CardinalPoint cpSOUTH = CardinalPoint.cardinalDirectionForString("SOUTH");
-        assertEquals(CardinalPoint.SOUTH,cpSOUTH);
+        assertThat(cpSOUTH, is(CardinalPoint.SOUTH));
 
         CardinalPoint cpWEST = CardinalPoint.cardinalDirectionForString("WEST");
-        assertEquals(CardinalPoint.WEST,cpWEST);
+        assertThat(cpWEST, is(CardinalPoint.WEST));
     }
 
     @Test(expected = IllegalArgumentException.class)

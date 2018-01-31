@@ -3,16 +3,16 @@ package com.toyrobot.enums;
 import java.util.List;
 
 public enum CardinalPoint {
-    NORTH(1, "NORTH"),EAST(2, "EAST"),SOUTH(3, "SOUTH"),WEST(4, "WEST");
+    NORTH(1),EAST(2),SOUTH(3),WEST(4);
 
     public static List<CardinalPoint> cardinalPoints = List.of(NORTH,EAST,SOUTH,WEST);
 
-    CardinalPoint(int value, String name){this.value = value; this.name = name;}
+    CardinalPoint(int value){this.value = value; }
 
     private int value;
-    private String name;
+
     public int getValue(){return value;}
-    public String getName(){return name;}
+
 
     public static CardinalPoint cardinalPointForRotation(CardinalPoint currentDirection, RotationDirection rotationDirection){
         int indexOf = cardinalPoints.indexOf(currentDirection);

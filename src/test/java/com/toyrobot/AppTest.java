@@ -1,8 +1,5 @@
 package com.toyrobot;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -31,7 +28,7 @@ public class AppTest {
 
     @Before
     public void setup(){
-        Logger root = (Logger) Logger.getRootLogger();
+        Logger root = Logger.getRootLogger();
         root.addAppender(mockAppender);
         root.setLevel(Level.INFO);
     }

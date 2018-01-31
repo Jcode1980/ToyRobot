@@ -6,18 +6,14 @@ import com.toyrobot.model.Robot;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
-import org.apache.log4j.spi.LoggerFactory;
 import org.apache.log4j.spi.LoggingEvent;
-import org.junit.Before;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -27,9 +23,8 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InputControllerIMPLTest {
-    private static final Logger log = Logger.getLogger(InputControllerIMPL.class);
-    public static String DEFAULT_SAMPLES_FILE = "src/main/resources/CommandsExample.txt";
-    public static String DEFAULT_TEST_BOUNDARIES_FILE = "src/main/resources/CommandsExampleTestBoundaries.txt";
+    private static final String DEFAULT_SAMPLES_FILE = "src/main/resources/CommandsExample.txt";
+    private static final String DEFAULT_TEST_BOUNDARIES_FILE = "src/main/resources/CommandsExampleTestBoundaries.txt";
     private InputControllerIMPL inputControllerIMPL;
     private static final String DUMMY_FILEPATH = "sillyFilePath/xxx.txt";
 
@@ -40,7 +35,7 @@ public class InputControllerIMPLTest {
 
     @Test
     public void processCommandFile_shouldReturnExceptionWhenControllerCantReadFile(){
-        Logger root = (Logger) Logger.getRootLogger();
+        Logger root =  Logger.getRootLogger();
         root.addAppender(mockAppender);
         root.setLevel(Level.ERROR);
 
@@ -55,7 +50,7 @@ public class InputControllerIMPLTest {
 
     @Test
     public void IT_processCommandFile_shouldOutputCorrectValue() {
-        Logger root = (Logger) Logger.getRootLogger();
+        Logger root = Logger.getRootLogger();
         root.addAppender(mockAppender);
         root.setLevel(Level.INFO);
 
@@ -74,7 +69,7 @@ public class InputControllerIMPLTest {
 
     @Test
     public void IT_processCommandFile_shouldOutputCorrectValueWithMovesTestingBoundaries() {
-        Logger root = (Logger) Logger.getRootLogger();
+        Logger root =  Logger.getRootLogger();
         root.addAppender(mockAppender);
         root.setLevel(Level.INFO);
 

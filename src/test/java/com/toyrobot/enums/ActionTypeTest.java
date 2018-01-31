@@ -6,14 +6,12 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ActionTypeTest {
 
     @Test
     public void pattern() {
-        assertEquals("(?i)LEFT(?-i)", ActionType.LEFT.pattern());
         assertThat(ActionType.LEFT.pattern(), is("(?i)LEFT(?-i)"));
     }
 

@@ -4,7 +4,6 @@ import com.toyrobot.enums.CardinalPoint;
 import com.toyrobot.enums.RotationDirection;
 import com.toyrobot.model.GridBoard;
 import com.toyrobot.model.PlaceableItem;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import java.awt.*;
-import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -21,7 +19,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class BoardControllerIMPLTest {
-    private BoardControllerIMPL boardControllerIMPL;
     @Mock
     private PlaceableItem placeableItemMock;
     @Mock
@@ -35,19 +32,19 @@ public class BoardControllerIMPLTest {
 
     @Test(expected = NullPointerException.class)
     public void constructor_shouldThrowExceptionWhenPassedNullGridBoard(){
-        BoardControllerIMPL boardControllerIMPL = new BoardControllerIMPL(null, placeableItemMock);
+        new BoardControllerIMPL(null, placeableItemMock);
     }
 
     @Test(expected = NullPointerException.class)
     public void constructor_shouldThrowExceptionWhenPassedNullPlaceableItem(){
-        BoardControllerIMPL boardControllerIMPL = new BoardControllerIMPL(gridBoardMock, null);
+        new BoardControllerIMPL(gridBoardMock, null);
     }
 
     @Test
     public void move_shouldReturnTrueAndMoveMethodShouldBeCalledOnItem() {
         BoardControllerIMPL boardControllerIMPL = new BoardControllerIMPL(gridBoardMock, placeableItemMock);
         when(placeableItemMock.nextMoveCoordinates()).thenReturn(new Point(1,2));
-
+        when(placeableItemMock.placedOnBoard()).thenReturn(true);
         when(gridBoardMock.getWidth()).thenReturn(4);
         when(gridBoardMock.getHeight()).thenReturn(4);
 
@@ -59,6 +56,7 @@ public class BoardControllerIMPLTest {
     public void move_shouldReturnFalseWhenGivenOutOfBoundsCoordinates() {
         BoardControllerIMPL boardControllerIMPL = new BoardControllerIMPL(gridBoardMock, placeableItemMock);
         when(placeableItemMock.nextMoveCoordinates()).thenReturn(new Point(3,2));
+        when(placeableItemMock.placedOnBoard()).thenReturn(true);
 
         when(gridBoardMock.getWidth()).thenReturn(2);
         when(gridBoardMock.getHeight()).thenReturn(2);
@@ -98,15 +96,14 @@ public class BoardControllerIMPLTest {
         assertTrue(boardControllerIMPL.place(2,2,CardinalPoint.NORTH));
     }
 
-
-    @Test(expected = IllegalArgumentException.class)
-    public void place_shouldReturnExceptionWhenGivenNegativeXValue() {
+    @Test
+    public void place_shouldReturnFalseWhenGivenNegativeXValue() {
         BoardControllerIMPL boardControllerIMPL = new BoardControllerIMPL(gridBoardMock, placeableItemMock);
         assertFalse(boardControllerIMPL.place(-1, 10,CardinalPoint.NORTH));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void place_shouldReturnExceptionWhenGivenNegativeYValue() {
+    @Test
+    public void place_shouldReturnFalseWhenGivenNegativeYValue() {
         BoardControllerIMPL boardControllerIMPL = new BoardControllerIMPL(gridBoardMock, placeableItemMock);
         assertFalse(boardControllerIMPL.place(1, -1,CardinalPoint.NORTH));
     }

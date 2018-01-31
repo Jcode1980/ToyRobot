@@ -16,6 +16,5 @@ public enum ActionType{
     private final String pattern;
 
     public String pattern(){return pattern;}
-    public static List<ActionType> actionTypes(){return of(ActionType.PLACE, ActionType.LEFT, ActionType.RIGHT,
-            ActionType.MOVE, ActionType.REPORT);}
+    public static List<ActionType> actionTypes(){return of(PLACE, LEFT, RIGHT, MOVE, REPORT);}
 }

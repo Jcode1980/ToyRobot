@@ -6,10 +6,10 @@ import com.toyrobot.controller.InputControllerIMPL;
 import com.toyrobot.controller.InputController;
 import com.toyrobot.model.*;
 
-import java.io.InputStream;
-
 public class App
 {
+    private static final int FOUR_INT = 4;
+
     public static void main( String[] args )
     {
         InputController inputController = intializeBoardGame(args);
@@ -17,7 +17,7 @@ public class App
     }
 
     private static InputController intializeBoardGame(String[] args){
-        BoardController boardController = new BoardControllerIMPL(new GridBoardGame(4,4), new Robot());
+        BoardController boardController = new BoardControllerIMPL(new GridBoardGame(FOUR_INT,FOUR_INT), new Robot());
         return new InputControllerIMPL(boardController, args.length > 0 ? args[0] : null);
     }
 }
