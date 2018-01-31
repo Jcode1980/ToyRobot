@@ -49,7 +49,9 @@ Assumptions
     -Commands are read line by line
     -Any commands before a place command will be ignored.
     -Non valid incorrectly formatted commands will print an error message to log.error
-    -Only one Robot can exist on board at any given time
+    -As per the requirement, only one Robot was needed to be on board the at any given time,
+     however the current BoardControllerIMPL class can be redesigned or a new BoardController
+     could be created to hold many placeableItems.
 
 Project Discussions regarding design and future development
 ==============
