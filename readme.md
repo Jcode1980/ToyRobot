@@ -37,6 +37,12 @@ Running The Toy Robot Application
 
    *Running main App using custom input commands File*
        mvn exec:java -Dexec.mainClass="com.toyrobot.App -Dexec.args=[FILEPATH]
+        e.g. exec:java -Dexec.mainClass="com.toyrobot.App" -Dexec.args="/PersonalProjects/toyrobot/src/main/resources/InvalidCommands.txt"
+
+**Example command files that can be used for demo or testing **
+    - "/PersonalProjects/toyrobot/src/main/resources/InvalidCommands.txt"
+    - "/PersonalProjects/toyrobot/src/main/resources/CommandsExample.txt"
+    - "/PersonalProjects/toyrobot/src/main/resources/CommandsExampleTestBoundaries.txt"
     
 Assumptions
 =============
@@ -55,10 +61,18 @@ Assumptions
 
 Project Discussions regarding design and future development
 ==============
-   -Cardinal Point stored as an integer in the Robot class so that value can be stored in a database table.
-   -Persistance layer can be developed.
-   -A new Board or the existing board class can be created/modified to hold multiple PlaceableItems.
-   -More commands can be implemented
-   -Give the user ability to specify size of board and number of placeablitems
-   -Have the ability to specify un-occupiable spaces on map
-   -Support for entering commmands via command line input aside from also reading commands from a file. 
+   **Future Development**
+    -Persistance layer can be developed.
+    -A new Board or the existing board class can be created/modified to hold multiple PlaceableItems.
+    -More commands can be implemented
+    -Give the user ability to specify size of board and number of placeablitems
+    -Have the ability to specify un-occupiable spaces on map
+    -Support for entering commmands via command line input aside from also reading commands from a file. 
+    
+   **Design**
+   -Foreign ID of enums are stored in the Robot object and not the actual enums themselves. 
+    This would allow the foreign key to be saved as persistance data
+   -Methods of how to access enums is stored in the enums themselves as it seemed like a logical place
+    to store all related logics.
+    
+

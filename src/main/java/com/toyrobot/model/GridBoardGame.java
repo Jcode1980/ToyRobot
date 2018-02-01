@@ -8,7 +8,7 @@ public class GridBoardGame implements GridBoard {
 
 
     /**
-     * Constructor of InputControllerIMPL
+     * Constructor of GridBoardGame
      *
      * @param width width of the board
      * @param height height of the board
@@ -23,10 +23,12 @@ public class GridBoardGame implements GridBoard {
         this.height=height;
     }
 
+    @Override
     public int getWidth() {
         return width;
     }
 
+    @Override
     public int getHeight() {
         return height;
     }

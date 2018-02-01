@@ -4,8 +4,10 @@ import com.toyrobot.enums.CardinalPoint;
 import com.toyrobot.enums.RotationDirection;
 import com.toyrobot.model.GridBoard;
 import com.toyrobot.model.PlaceableItem;
+import org.apache.log4j.Logger;
 
 import java.awt.*;
+import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -23,6 +25,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * the calling methods.
  */
 public class BoardControllerIMPL implements BoardController {
+    private static final Logger log = Logger.getLogger(BoardControllerIMPL.class);
     private GridBoard gridBoard;
     private PlaceableItem item;
     private static final String COMMA = ",";
@@ -36,13 +39,14 @@ public class BoardControllerIMPL implements BoardController {
      *
      */
     public BoardControllerIMPL(GridBoard gridBoard, PlaceableItem item) {
-        checkNotNull(gridBoard, "Grid Board must not be null", gridBoard);
-        checkNotNull(item, "PlaceableItem must not be null", item);
+        checkNotNull(gridBoard, "Grid Board must not be null");
+        checkNotNull(item, "PlaceableItem must not be null");
 
         this.gridBoard = gridBoard;
         this.item = item;
     }
 
+    @Override
     public boolean move() {
         if (!item.placedOnBoard()) return false;
 
@@ -60,15 +64,23 @@ public class BoardControllerIMPL implements BoardController {
         }
     }
 
+    @Override
     public void rotate(RotationDirection direction) {
-        checkNotNull(direction, "Direction passed in must not be null", direction);
-        item.rotate(direction);
+        checkNotNull(direction, "Direction passed in must not be null");
+        try{
+            item.rotate(direction);
+        }catch (NullPointerException e){
+            log.error(e.getMessage(), e);
+        }
+
     }
 
+    @Override
     public boolean place(int x, int y, CardinalPoint cp) {
-        checkNotNull(cp, "cp Cardinal Poinst must not be null", cp);
+        checkNotNull(cp, "cp Cardinal Poinst must not be null");
 
         if (coordinatesAreValid(x, y)) {
+
             item.place(x, y, cp);
             return true;
         } else {
@@ -76,13 +88,12 @@ public class BoardControllerIMPL implements BoardController {
         }
     }
 
-    public String report() {
-
-        return item.getX() + COMMA + item.getY() + COMMA + item.cardinalPoint().name();
+    @Override
+    public Optional<String> report() {
+        return Optional.of(item.getX() + COMMA + item.getY() + COMMA + item.cardinalPoint().name());
     }
 
     private boolean coordinatesAreValid(int x, int y) {
-
         return x >= 0 && y >= 0 && gridBoard.getWidth() >= x && gridBoard.getHeight() >= y;
     }
 

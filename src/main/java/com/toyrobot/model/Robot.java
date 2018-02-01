@@ -14,14 +14,19 @@ public class Robot implements PlaceableItem {
     private int y = -1;
     private int cDirection;
 
+    @Override
     public boolean placedOnBoard() { return getX() >= 0 && getY() >=0; }
 
+    @Override
     public int getX() {return x; }
 
+    @Override
     public int getY() { return y; }
 
+    @Override
     public CardinalPoint cardinalPoint(){ return CardinalPoint.cardinalPointForInt(cDirection); }
 
+    @Override
     public Point nextMoveCoordinates(){
         CardinalPoint direction = cardinalPoint();
         int newX = getX();
@@ -44,14 +49,17 @@ public class Robot implements PlaceableItem {
         return new Point(newX, newY);
     }
 
+    @Override
     public void rotate(RotationDirection rotationDirection) {
-        checkNotNull(rotationDirection, "Rotation Direction must not be null", rotationDirection);
+        checkNotNull(rotationDirection, "Rotation Direction must not be null");
 
         CardinalPoint cPoint = cardinalPoint();
         CardinalPoint newDirection = CardinalPoint.cardinalPointForRotation(cPoint, rotationDirection);
         cDirection = newDirection.getValue();
 
     }
+
+    @Override
     public void move(int x , int y ){
         checkArgument(x >= 0, "x coordinate must be a positive non zero integer: %s", x);
         checkArgument(y >= 0, "y coordinate must be a positive non zero integer: %s", y);
@@ -59,10 +67,11 @@ public class Robot implements PlaceableItem {
         this.y = y;
     }
 
+    @Override
     public void place(int x, int y, CardinalPoint cp){
         checkArgument(x >= 0, "x coordinate must be a positive non zero integer: %s", x);
         checkArgument(y >= 0, "y coordinate must be a positive non zero integer: %s", y);
-        checkNotNull(cp, "cp Cardinal Poinst must not be null", cp);
+        checkNotNull(cp, "cp Cardinal Poinst must not be null");
 
         this.x = x;
         this.y = y;

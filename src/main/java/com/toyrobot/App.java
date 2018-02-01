@@ -4,18 +4,17 @@ import com.toyrobot.controller.BoardController;
 import com.toyrobot.controller.BoardControllerIMPL;
 import com.toyrobot.controller.InputControllerIMPL;
 import com.toyrobot.controller.InputController;
-import com.toyrobot.model.*;
-
-import java.util.Optional;
+import com.toyrobot.model.GridBoardGame;
+import com.toyrobot.model.Robot;
 
 public class App
 {
     private static final int FOUR_INT = 4;
 
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) {
         InputController inputController = intializeBoardGame(args);
         inputController.processCommandFile();
+
     }
 
     private static InputController intializeBoardGame(String[] args){

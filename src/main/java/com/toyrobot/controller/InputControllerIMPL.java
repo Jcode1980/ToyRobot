@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -44,11 +45,12 @@ public class InputControllerIMPL implements InputController {
      *
      */
     public InputControllerIMPL(BoardController bc, String filePathParam) {
-        checkNotNull(bc, "Board controller must not be null", bc);
+        checkNotNull(bc, "Board controller must not be null");
         boardController = bc;
         filePath = filePathParam != null ? filePathParam :  DEFAULT_COMMANDS_FILE;
     }
 
+    @Override
     public void processCommandFile() {
         String filePathToUse = filePath != null ? filePath : DEFAULT_COMMANDS_FILE;
 
@@ -69,7 +71,7 @@ public class InputControllerIMPL implements InputController {
 
     private void processCommand(ActionType actionType, String command) {
 
-        String resultingInfo = null;
+        Optional<String> resultingInfo = Optional.empty();
         try {
             switch (actionType) {
                 case PLACE:
@@ -92,7 +94,7 @@ public class InputControllerIMPL implements InputController {
             log.error("Exception occurred when processing Action" + command, e);
         }
 
-        if (resultingInfo != null) log.info(resultingInfo);
+        resultingInfo.ifPresent(log::info);
     }
 
     private void placeAction(String command) {

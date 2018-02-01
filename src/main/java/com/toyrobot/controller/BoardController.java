@@ -5,6 +5,7 @@ import com.toyrobot.enums.RotationDirection;
 
 import java.util.Optional;
 
+
 /**
  * This interface defines the interactions of the <code>PlaceableItem</code> on the board.
  * BoardController is currently only designed to hold and control one Item.
@@ -50,5 +51,5 @@ public interface BoardController {
      * @return <code>String</code> which are the details (x, y, Cardinal Point) of
      * the <code>PlaceableItem</code> on the board.
      */
-    String report();
+    Optional<String> report();
 }

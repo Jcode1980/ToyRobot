@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import java.awt.*;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -128,7 +129,9 @@ public class BoardControllerIMPLTest {
         when(placeableItemMock.getY()).thenReturn(1);
         when(placeableItemMock.cardinalPoint()).thenReturn(CardinalPoint.NORTH);
 
-        String reportOptional = boardControllerIMPL.report();
-        assertThat(reportOptional,is("1,1,NORTH"));
+        Optional<String> reportOptional = boardControllerIMPL.report();
+        assertTrue(reportOptional.isPresent());
+        assertThat(reportOptional.get(), is("1,1,NORTH"));
+
     }
 }
