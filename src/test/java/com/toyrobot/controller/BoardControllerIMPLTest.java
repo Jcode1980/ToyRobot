@@ -60,7 +60,6 @@ public class BoardControllerIMPLTest {
         when(placeableItemMock.placedOnBoard()).thenReturn(true);
 
         when(gridBoardMock.getWidth()).thenReturn(2);
-        when(gridBoardMock.getHeight()).thenReturn(2);
 
         assertFalse(boardControllerIMPL.move());
     }
@@ -83,7 +82,6 @@ public class BoardControllerIMPLTest {
     public void place_shouldReturnFalseWhenGivenOutOfBoundsCoordinates() {
         BoardControllerIMPL boardControllerIMPL = new BoardControllerIMPL(gridBoardMock, placeableItemMock);
         when(gridBoardMock.getWidth()).thenReturn(4);
-        when(gridBoardMock.getHeight()).thenReturn(4);
 
         assertFalse(boardControllerIMPL.place(5,5,CardinalPoint.NORTH));
     }
